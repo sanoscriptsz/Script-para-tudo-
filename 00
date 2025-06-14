@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sano adm - Gerador de Script</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+
+        :root {
+            --bg-color: #121212;
+            --primary-color: #1e1e1e;
+            --secondary-color: #2a2a2a;
+            --text-color: #e0e0e0;
+            --accent-color: #00ff80;
+            --border-color: #444;
+        }
+
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .header pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: var(--accent-color);
+            font-size: 0.8em;
+            text-align: left;
+            background-color: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        h1, h2 {
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: var(--primary-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group.checkbox-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            background-color: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 10px;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        input[type="checkbox"] {
+            transform: scale(1.3);
+            margin-left: 10px;
+            accent-color: var(--accent-color);
+        }
+
+        .list-manager {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .list-manager input {
+            flex-grow: 1;
+        }
+
+        .list-display {
+            background-color: var(--secondary-color);
+            border-radius: 4px;
+            min-height: 50px;
+            padding: 5px;
+        }
+        
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            padding: 5px 10px;
+            border-radius: 3px;
+            margin-top: 5px;
+            word-break: break-all;
+        }
+
+        .btn, button {
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background-color 0.2s;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .btn:hover, button:hover {
+            background-color: #00cc66;
+        }
+
+        .btn-remove {
+            background-color: #ff4d4d;
+            color: white;
+            padding: 3px 8px;
+            font-size: 0.8em;
+        }
+        .btn-remove:hover {
+            background-color: #cc0000;
+        }
+        
+        .output-card {
+            grid-column: 1 / -1;
+        }
+
+        #outputScript {
+            height: 250px;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #777;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <pre>
+   _______    __       ________  ___  ___   _______  _______   ________      ___  ___  ________   _______
+  ╱       ╲╲╱╱  ╲     ╱╱  ____ ╲╱  ╱ ╱  ╲╲╱╱       ╲╱       ╲╲╱    ╱   ╲    ╱  ╱ ╱  ╲╲╱     ╱  ╲╱╱  __  ╱
+ ╱  ╱___  ╱╱╱   ╱    ╱╱  ╱     ╱  ╱_╱   ╱╱╱  ╱___  ╱        ╱╱   _╱    ╱   ╱  ╱_╱   ╱╱   __╱   ╱╱       ╲
+╱         ╱    ╱____╱   ╱_____╱   __    ╱     ____╱   ╱  ╱  ╱╲____   ╱╱   ╱   __    ╱         ╱╱   __╱   ╱
+╲___╱____╱╲________╱╲________╱╲__╱ ╱___╱╲________╱╲__╱__╱__╱     ╱__╱╱    ╲__╱ ╱___╱╲________╱╱╲________╱ 
+            </pre>
+            <h1>sano adm</h1>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-title">Configurações Principais</div>
+                <div class="form-group">
+                    <label for="script_key">Script Key</label>
+                    <input type="text" id="script_key" placeholder="Insira sua chave aqui">
+                </div>
+                <div class="form-group">
+                    <label for="use_code">Código de Ativação</label>
+                    <input type="text" id="use_code" placeholder="Insira um código promocional">
+                </div>
+                 <div class="form-group checkbox-group">
+                    <label for="premium">Carregar Script Premium</label>
+                    <input type="checkbox" id="premium">
+                </div>
+                <div class="form-group checkbox-group">
+                    <label for="oneclick">Modo One-Click / Kaitan</label>
+                    <input type="checkbox" id="oneclick">
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Automação</div>
+                <div class="form-group checkbox-group">
+                    <label for="disable_auto_exec">Desativar Auto-Execute</label>
+                    <input type="checkbox" id="disable_auto_exec">
+                </div>
+                <div class="form-group checkbox-group">
+                    <label for="auto_rejoin">Reconectar Automaticamente</label>
+                    <input type="checkbox" id="auto_rejoin">
+                </div>
+                <div class="form-group checkbox-group">
+                    <label for="fully_rejoin">Reconexão Completa</label>
+                    <input type="checkbox" id="fully_rejoin">
+                </div>
+                 <div class="form-group checkbox-group">
+                    <label for="fruits_finder">Farm de Frutas (Blox Fruits)</label>
+                    <input type="checkbox" id="fruits_finder">
+                </div>
+                <div class="form-group checkbox-group">
+                    <label for="arise_afk">AFK Farm (Arise Crossover)</label>
+                    <input type="checkbox" id="arise_afk">
+                </div>
+                 <div class="form-group checkbox-group">
+                    <label for="aimbot">Aimbot</label>
+                    <input type="checkbox" id="aimbot">
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Diversos e Visuais</div>
+                 <div class="form-group checkbox-group">
+                    <label for="skip_loading">Pular Tela de Carregamento</label>
+                    <input type="checkbox" id="skip_loading">
+                </div>
+                <div class="form-group checkbox-group">
+                    <label for="mute_sound">Silenciar Sons do Script</label>
+                    <input type="checkbox" id="mute_sound">
+                </div>
+                <div class="form-group checkbox-group">
+                    <label for="streamer_mode">Modo Streamer (Ocultar Nome)</label>
+                    <input type="checkbox" id="streamer_mode">
+                </div>
+                <div class="form-group checkbox-group">
+                    <label for="whitescreen">Efeito de Tela Branca</label>
+                    <input type="checkbox" id="whitescreen">
+                </div>
+                <div class="form-group checkbox-group">
+                    <label for="blackscreen">Efeito de Tela Preta</label>
+                    <input type="checkbox"id="blackscreen">
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Gerenciar Jogadores</div>
+                <label>Evitar Jogadores (por UserID)</label>
+                <div class="list-manager">
+                    <input type="text" id="avoid-player-input" placeholder="Insira o UserID">
+                    <button id="add-avoid-player-btn">Adicionar</button>
+                </div>
+                <div class="list-display" id="avoid-player-list"></div>
+            </div>
+
+            <div class="card" style="grid-row: span 2;">
+                <div class="card-title">Plugins</div>
+                <div class="form-group">
+                    <label>Plugins por Link</label>
+                    <div class="list-manager">
+                       <input type="text" id="link-plugin-input" placeholder="https://...">
+                       <button id="add-link-plugin-btn">Adicionar</button>
+                    </div>
+                    <div class="list-display" id="link-plugin-list"></div>
+                </div>
+                 <div class="form-group">
+                    <label for="rawplugins">Plugins em Código (Raw)</label>
+                    <textarea id="rawplugins" placeholder="Cole o código LUA do seu plugin aqui..."></textarea>
+                </div>
+            </div>
+
+            <div class="card output-card">
+                <div class="card-title">Script Gerado</div>
+                 <div class="form-group" style="text-align:center;">
+                    <button id="generate-btn" class="btn" style="width: 100%; padding: 15px; font-size: 1.1em;">Gerar Script</button>
+                </div>
+                <textarea id="outputScript" readonly placeholder="O script configurado aparecerá aqui..."></textarea>
+                 <div class="form-group" style="text-align:center; margin-top: 15px; margin-bottom: 0;">
+                    <button id="copy-btn" class="btn">Copiar para a Área de Transferência</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Interface "sano adm" criada para Alchemy Hub. Todos os direitos do script original são reservados à Alchemy Team.</p>
+        </div>
+    </div>
+
+<script>
+    // --- List Management ---
+    function setupListManager(inputId, addBtnId, listId, storageKey) {
+        const input = document.getElementById(inputId);
+        const addBtn = document.getElementById(addBtnId);
+        const listDisplay = document.getElementById(listId);
+        let items = JSON.parse(localStorage.getItem(storageKey)) || [];
+
+        function renderList() {
+            listDisplay.innerHTML = '';
+            items.forEach((item, index) => {
+                const listItem = document.createElement('div');
+                listItem.className = 'list-item';
+                
+                const text = document.createElement('span');
+                text.textContent = item;
+                listItem.appendChild(text);
+
+                const removeBtn = document.createElement('button');
+                removeBtn.textContent = 'X';
+                removeBtn.className = 'btn-remove';
+                removeBtn.onclick = () => {
+                    items.splice(index, 1);
+                    updateAndRender();
+                };
+                listItem.appendChild(removeBtn);
+                listDisplay.appendChild(listItem);
+            });
+        }
+
+        function updateAndRender() {
+            localStorage.setItem(storageKey, JSON.stringify(items));
+            renderList();
+        }
+
+        addBtn.addEventListener('
